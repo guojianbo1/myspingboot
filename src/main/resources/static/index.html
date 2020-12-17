@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    hello word!!!!222333
+    <div id="app">
+        {{ message }}
+    </div>
+
+    <div id="app-2">
+      <span v-bind:title="message">
+        鼠标悬停几秒钟查看此处动态绑定的提示信息！
+      </span>
+    </div>
+
+    <div id="app-4">
+        <ol>
+            <li v-for="todo in todos">
+                {{ todo.text }}
+            </li>
+        </ol>
+    </div>
+    <div id="app-5">
+        <p>{{ message }}</p>
+        <button v-on:click="reverseMessage">反转消息</button>
+    </div>
+    <div id="app-6">
+        <p>{{ message }}</p>
+        <input v-model="message">
+    </div>
+
+    <div id="app-7">
+        <ol>
+            <todo-item
+                    v-for="item in groceryList"
+                    v-bind:todo="item"
+                    v-bind:key="item.id"
+            ></todo-item>
+        </ol>
+    </div>
+    <div id="example">
+        <p>time: "{{ time }}"</p>
+        <p>now: "{{ now }}"</p>
+    </div>
+
+    <div id="example2"
+            class="static"
+            v-bind:class="classObject"
+            v-bind:style="styleObject"
+    >123123</div>
+
+    <h1 v-if="awesome" id="aw">Vue is awesome!</h1>
+    <h1 v-else>Oh no 😢</h1>
+
+    <div id="ma">
+        <div v-if="ma > 0.5">
+            大于0.5
+        </div>
+        <div v-else-if="ma <=0.5 && ma>0.3">
+            大于0.3且小于等于0.5
+        </div>
+        <div v-else>
+            小于等于0.3
+        </div>
+    </div>
+    <h1 v-show="ok">Hello!</h1>
+    <div id="ul">
+        <ul v-for="set in sets">
+            <li v-for="n in even(set)">{{ n }}</li>
+        </ul>
+    </div>
+</body>
+
+<script>
+    var ul = new Vue({
+        el: '#ul',
+        data: {
+            sets: [[ 1, 2, 3, 4, 5 ], [6, 7, 8, 9, 10]]
+        },
+        methods: {
+            even: function (numbers) {
+                return numbers.filter(function (number) {
+                    return number % 2 === 0
+                })
+            }
+        }
+    })
+
+    var ma = new Vue({
+        el: '#ma',
+        data: {
+            ma:Math.random()
+        },
+        created: function () {
+            // `this` 指向 vm 实例
+            console.log('ma ' + this.ma)
+        }
+    })
+    var aw = new Vue({
+        el: '#aw',
+        data: {
+            awesome:false
+        }
+    })
+
+    var vm2 = new Vue({
+        el: '#example2',
+        data: {
+            classObject: {
+                active: true,
+                'text-danger': false
+            },
+            styleObject: {
+                color: 'red',
+                fontSize: '13px'
+            }
+        }
+    })
+    var vm = new Vue({
+        el: '#example',
+        data: {
+            time: Date.now()
+        },
+        computed: {
+            // 计算属性的 getter
+            now: function () {
+                // `this` 指向 vm 实例
+                return Date.now()
+            }
+        }
+    })
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!'
+        }
+    });
+    var app2 = new Vue({
+        el: '#app-2',
+        data: {
+            message: '页面加载于 ' + new Date().toLocaleString()
+        }
+    });
+    var app4 = new Vue({
+        el: '#app-4',
+        data: {
+            todos: [
+                { text: '学习 JavaScript' },
+                { text: '学习 Vue' },
+                { text: '整个牛项目' }
+            ]
+        }
+    })
+    var app5 = new Vue({
+        el: '#app-5',
+        data: {
+            message: 'Hello Vue.js!'
+        },
+        methods: {
+            reverseMessage: function () {
+                this.message = this.message.split('').reverse().join('')
+            }
+        }
+    })
+    var app6 = new Vue({
+        el: '#app-6',
+        data: {
+            message: 'Hello Vue!'
+        }
+    })
+
+    Vue.component('todo-item', {
+        props: ['todo'],
+        template: '<li>{{ todo.text }}</li>'
+    })
+
+    var app7 = new Vue({
+        el: '#app-7',
+        data: {
+            groceryList: [
+                { id: 0, text: '蔬菜' },
+                { id: 1, text: '奶酪' },
+                { id: 2, text: '随便其它什么人吃的东西' }
+            ]
+        }
+    })
+
+    new Vue({
+        data: {
+            a: 1
+        },
+        created: function () {
+            // `this` 指向 vm 实例
+            console.log('a is: ' + this.a)
+        }
+    })
+</script>
+</html>
