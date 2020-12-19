@@ -55,7 +55,7 @@ public class HelloWordService {
         Row row = null;
         Map<String,Map<String,Object>> resultMap = null;
         String cellData = null;
-        String filePath = "C:\\Users\\admin\\Desktop\\月亮券支付优惠信息导入表202031216【终】.xlsx";
+        String filePath = "C:\\Users\\admin\\Desktop\\月亮券支付优惠信息导入表20201219.xlsx";
         String columns[] = {"*产品编码（SAP）","*使用月亮券支付优惠的金额"};
         wb = readExcel(filePath);
         if(wb != null){
@@ -90,12 +90,16 @@ public class HelloWordService {
         String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         StringBuilder sql = new StringBuilder();
         sql.append("insert into mall_item_moonpay_discount_rule (sku,moon_pay_discount,create_time) values ");
-
+        StringBuilder osql = new StringBuilder();
+        osql.append("select * from mall_item_moonpay_discount_rule where sku in (");
         for (Map.Entry<String,Map<String,Object>> entry : resultMap.entrySet()) {
             Map<String, Object> map = entry.getValue();
             sql.append("('").append(map.get("sku")).append("',").append(map.get("moon_pay_discount")).append(",'").append(date).append("')").append(",");
+            osql.append("'").append(map.get("sku")).append("',");
         }
         String resultSql = sql.substring(0, sql.length() - 1);
+        String resultOSql = osql.substring(0, osql.length() - 1)+");";
+        System.out.println(resultOSql);
         System.out.println(resultSql);
     }
     //读取excel
